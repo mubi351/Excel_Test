@@ -31,7 +31,10 @@ class BlogController extends Controller
 
     public function delete(Request $request,$id)
     {
-        Blog::where('id', $id)->delete();
+
+        $blog = Blog::FindOrFail($id);
+        $blog->comments()->delete();
+        $blog->delete();
         $request->session()->flash('status','Blog deleted successfully');
         return redirect('home');
     }
